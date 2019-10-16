@@ -141,6 +141,8 @@ $(document).ready(function () {
         grid[previousPos.x][previousPos.y] = null;
         grid[rover.x][rover.y] = 'X';
 
+        updateRoverOnMap();
+
         console.log(grid);
     }
 
