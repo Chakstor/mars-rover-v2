@@ -8,11 +8,11 @@ It receives a string of commands via the `roverCommands` method.
 ## Commands
 
 Available commands are:
-* f = moves the robot forward.
-* b = moves the robot backward.
-* l = face the robot to the left.
-* r = face the robot to the right.
+* `f` = moves the robot forward.
+* `b` = moves the robot backward.
+* `l` = face the robot to the left.
+* `r` = face the robot to the right.
 
 ## How to use it
 
-Open `index.html` in your preferred browser. Open the browser console and call the `roverCommands` method passing a string of commands. For example if `roverCommands('rfrf')`, if ran from the very begining, this should move the robot from `[0, 0]` to `[1, 1]`.
+Open `index.html` in your preferred browser. Open the browser's console and call the `roverCommands` method passing a string of commands. For example: `roverCommands('rfrf')`. If this were ran from the very begining, this should move the robot from position `[0, 0]` to position `[1, 1]`.
