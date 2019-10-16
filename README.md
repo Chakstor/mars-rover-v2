@@ -16,3 +16,7 @@ Available commands are:
 ## How to use it
 
 Open `index.html` in your preferred browser. Open the browser's console and call the `roverCommands` method passing a string of commands. For example: `roverCommands('rfrf')`. If this were ran from the very begining, this should move the robot from position `[0, 0]` to position `[1, 1]`.
+
+## How to use it
+
+* `getRoverTravelLog()` = print out a log of the rover's previous steps.
