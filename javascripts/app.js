@@ -1,4 +1,4 @@
-// Rover Object Goes Here
+// Variables
 // ======================
 
 var rover = {
@@ -8,17 +8,31 @@ var rover = {
     y: 0
 };
 
-
-// Grid Goes Here
-// ======================
-
-var grid = {
-    rows: 10,
-    columns: 10
+var gridDefinition = {
+    rows: 3,
+    columns: 3
 };
 
+var grid = [];
 
-// Methods Go Here
+
+// Generate Grid
+// ======================
+
+for (var row = 0; row <= gridDefinition.rows - 1; row++) {
+    var arr = [];
+
+    for (var col = 0; col <= gridDefinition.columns - 1; col++) {
+        arr.push(null);
+    }
+
+    grid.push(arr);
+}
+
+grid[rover.x][rover.y] = 'X';
+
+
+// Methods
 // ======================
 
 function turnLeft(rover) {
@@ -34,47 +48,59 @@ function turnRight(rover) {
 }
 
 function moveForward(rover) {
-    switch(rover.direction) {
+    var previousPos = {
+        x: rover.x,
+        y: rover.y
+    }
+
+    switch (rover.direction) {
         case 'N':
-            rover.y = (rover.y - 1 >= 0) ? rover.y - 1 : rover.y;
+            rover.x = (rover.x - 1 > - 0) ? rover.x - 1 : rover.x;
             break;
         case 'E':
-            rover.x = (rover.x + 1 < grid.columns) ? rover.x + 1 : rover.x;
+            rover.y = (rover.y + 1 < gridDefinition.columns) ? rover.y + 1 : rover.y;
             break;
         case 'S':
-            rover.y = (rover.y + 1 < grid.rows) ? rover.y + 1 : rover.y;
+            rover.x = (rover.x + 1 < gridDefinition.rows) ? rover.x + 1 : rover.x;
             break;
         case 'W':
-            rover.x = (rover.x - 1 >- 0) ? rover.x - 1 : rover.x;
+            rover.y = (rover.y - 1 >= 0) ? rover.y - 1 : rover.y;
             break;
     }
 
-    rover.travelLog.push(`[${rover.x}, ${rover.y}]`);
-    printPositionStatus(rover, 'moveForward');
+    updateRoverTravelLog(rover);
+    printRoverPosition(rover, 'moveForward');
+    updateGridMap(previousPos, rover);
 }
 
 function moveBackward(rover) {
+    var previousPos = {
+        x: rover.x,
+        y: rover.y
+    }
+
     switch (rover.direction) {
         case 'N':
-            rover.y = (rover.y + 1 < grid.rows) ? rover.y + 1 : rover.y;
+            rover.x = (rover.x + 1 < gridDefinition.rows) ? rover.x + 1 : rover.x;
             break;
         case 'E':
-            rover.x = (rover.x - 1 > 0) ? rover.x - 1 : rover.x;
-            break;
-        case 'S':
             rover.y = (rover.y - 1 >= 0) ? rover.y - 1 : rover.y;
             break;
+        case 'S':
+            rover.x = (rover.x - 1 > 0) ? rover.x - 1 : rover.x;
+            break;
         case 'W':
-            rover.x = (rover.x + 1 < grid.columns) ? rover.x + 1 : rover.x;
+            rover.y = (rover.y + 1 < gridDefinition.columns) ? rover.y + 1 : rover.y;
             break;
     }
 
-    rover.travelLog.push(`[${rover.x}, ${rover.y}]`);
-    printPositionStatus(rover, 'moveBackward');
+    updateRoverTravelLog(rover);
+    printRoverPosition(rover, 'moveBackward');
+    updateGridMap(previousPos, rover);
 }
 
 function updateDirection(direction, turn) {
-    switch(direction) {
+    switch (direction) {
         case 'N':
             rover.direction = turn === 'left' ? 'W' : 'E';
             break;
@@ -92,7 +118,7 @@ function updateDirection(direction, turn) {
 
 function roverCommands(commands) {
     for (var i = 0; i <= commands.length; i++) {
-        switch(commands[i]) {
+        switch (commands[i]) {
             case 'f':
                 moveForward(rover);
                 break;
@@ -109,15 +135,30 @@ function roverCommands(commands) {
     }
 }
 
-function printDirectionStatus(previousDirection, newDirection, calledMethod) {
-    console.log(`Previous direction: ${previousDirection}`);
-    console.log(`New direction: ${newDirection}`);
-    console.log(`${calledMethod} was called!`);
+function updateGridMap(previousPos, rover) {
+    grid[previousPos.x][previousPos.y] = null;
+    grid[rover.x][rover.y] = 'X';
+
+    printGridMap();
 }
 
-function printPositionStatus(rover, calledMethod) {
+function updateRoverTravelLog(rover) {
+    rover.travelLog.push(`[${rover.x}, ${rover.y}]`);
+}
+
+function printDirectionStatus(previousDirection, newDirection, calledMethod) {
+    console.log(`${calledMethod} was called!`);
+    console.log(`Previous direction: ${previousDirection}`);
+    console.log(`New direction: ${newDirection}`);
+}
+
+function printRoverPosition(rover, calledMethod) {
     console.log(`${calledMethod} was called`);
     console.log(`new position: [${rover.x}, ${rover.y}]`);
+}
+
+function printGridMap() {
+    console.log(grid);
 }
 
 function getRoverTravelLog() {
